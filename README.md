@@ -2,46 +2,13 @@
 
 Rotate the client secret stored in an F5 Distributed Cloud (XC) Azure OIDC provider.
 
-The repository contains a single script, [rotate_f5_xc_azure_oidc_secret.py], which:
-
-1. Reads the current OIDC provider definition from the XC API.
-2. Rebuilds the update payload from the existing object.
-3. Replaces only the Azure `client_secret`.
-4. Sends the updated provider definition back to XC.
-
-The script uses only the Python standard library. No third-party packages are required.
-
 ## Requirements
 
 - Python 3.9 or later
 - An F5 XC API token with permission to read and update OIDC providers
-- The XC tenant short name
-- The new Azure OIDC client secret you want to store in XC
+- F5 XC tenant short name
+- The new Azure OIDC client secret
 - Network access from the machine running the script to `https://<tenant>.console.ves.volterra.io`
-
-## Files
-
-- [rotate_f5_xc_azure_oidc_secret.py]: the rotation script
-
-## How It Works
-
-The script calls the F5 XC API endpoint:
-
-```text
-https://<tenant>.console.ves.volterra.io/api/web/custom/namespaces/<namespace>/oidc_providers/<provider-name>
-```
-
-Execution flow:
-
-1. `GET` the current OIDC provider object.
-2. Extract `object.metadata` and `object.spec.gc_spec`.
-3. Copy the current `azure_oidc_spec_type`.
-4. Replace `azure_oidc_spec_type.client_secret` with the new value.
-5. Preserve `provider_type`.
-6. Preserve `redirect_uri` and `scim_spec` when present.
-7. `POST` the updated payload back to the same endpoint.
-
-This means the script is intended specifically for Azure-backed OIDC providers already present in XC.
 
 ## Usage
 
@@ -123,8 +90,6 @@ Successful update:
 ```text
 Secret rotation succeeded for <tenant>/<namespace>/<provider-name>.
 ```
-
-If XC returns something other than `{"err": "EOK"}`, the script prints the full JSON response.
 
 ## Failure Modes
 
