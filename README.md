@@ -133,3 +133,7 @@ python3 rotate_f5_xc_azure_oidc_secret.py \
 - The script assumes the current provider object contains `spec.gc_spec.azure_oidc_spec_type`.
 - The script does not create a provider. The target provider must already exist.
 - The script performs one read and one write against the XC API for each execution.
+
+## License
+
+This project is licensed under the BSD 3-Clause License. See `LICENSE`.
